@@ -133,7 +133,12 @@ export default function ListingsItem({
   location,
   languages,
   tools,
+  addFilter,
 }) {
+  const addFiterHandler = (e) => {
+    addFilter(e.target.innerHTML);
+  };
+
   return (
     <ListingItemContainer featured={featured}>
       <CompanyLogo src={logo.default} alt={company}></CompanyLogo>
@@ -154,7 +159,14 @@ export default function ListingsItem({
       </DescriptionContainer>
       <ToolsContainer>
         {[...languages, ...tools].map((tool) => {
-          return <ToolBox>{tool}</ToolBox>;
+          return (
+            <ToolBox
+              key={Math.round(Math.random() * 10000000000000)}
+              onClick={addFiterHandler}
+            >
+              {tool}
+            </ToolBox>
+          );
         })}
       </ToolsContainer>
     </ListingItemContainer>

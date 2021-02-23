@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 
 // images
@@ -6,6 +6,9 @@ import backgroundHeaderImageDesktop from "./images/bg-header-desktop.svg";
 
 // components
 import ListingsItem from "./components/ListingsItem";
+
+// custom hooks
+import useSetFilteredData from "./hooks/useSetFilteredData";
 
 // misc
 import { mockData } from "./mock/data";
@@ -60,13 +63,37 @@ const ListingsContainer = styled.div`
 `;
 
 function App() {
+  const { filteredData, addFilter } = useSetFilteredData();
+
+  // const [data, setData] = useState([]);
+  // const [filters, setFilters] = useState(["HTML"]);
+
+  // useEffect(() => {
+  //   if (filters.length !== 0) {
+  //     let filteredData = [];
+
+  //     mockData.map((item) => {
+  //       if (
+  //         [...item.languages, ...item.tools].some(
+  //           (item) => filters.indexOf(item) !== -1
+  //         )
+  //       ) {
+  //         filteredData.push(item);
+  //       }
+  //     });
+  //     setData(filteredData);
+  //   } else {
+  //     setData(mockData);
+  //   }
+  // }, [mockData, filters]);
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyles />
       <MainContainer>
         <Header></Header>
         <ListingsContainer>
-          {mockData.map((item) => {
+          {filteredData.data.map((item) => {
             return (
               <ListingsItem
                 key={item.id}
@@ -80,6 +107,7 @@ function App() {
                 location={item.location}
                 languages={item.languages}
                 tools={item.tools}
+                addFilter={addFilter}
               />
             );
           })}
