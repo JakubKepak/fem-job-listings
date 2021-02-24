@@ -14,11 +14,23 @@ const ListingItemContainer = styled.div`
     `
     border-left: 4px solid hsl(180, 29%, 50%);
   `}
+
+  @media (max-width: 780px) {
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
 `;
 
 const CompanyLogo = styled.img`
   width: 4rem;
   height: 4rem;
+
+  @media (max-width: 780px) {
+    width: 3rem;
+    height: 3rem;
+    margin-top: -3rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const DescriptionContainer = styled.div`
@@ -105,6 +117,13 @@ const ToolsContainer = styled.div`
   margin-left: auto;
   display: flex;
   align-items: center;
+
+  @media (max-width: 780px) {
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid ${({ theme }) => theme.lightGrey};
+  }
 `;
 
 const ToolBox = styled.span`

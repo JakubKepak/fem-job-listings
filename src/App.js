@@ -72,10 +72,15 @@ const FilterPanelContainer = styled.div`
     `
     display: none;
   `}
+
+  @media (max-width: 780px) {
+    width: 90%;
+    flex-wrap: wrap;
+  }
 `;
 
 const FilterItem = styled.div`
-  margin-right: 1rem;
+  margin: 0.5rem 0.5rem;
 `;
 
 const FilterItemName = styled.span`
@@ -119,6 +124,10 @@ const ListingsContainer = styled.div`
   width: 80%;
   max-width: 1200px;
   margin-top: 2rem;
+
+  @media (max-width: 780px) {
+    width: 90%;
+  }
 `;
 
 function App() {
@@ -137,7 +146,7 @@ function App() {
         <FilterPanelContainer filterLength={filteredData.filter.length}>
           {filteredData.filter.map((item) => {
             return (
-              <FilterItem>
+              <FilterItem key={Math.round(Math.random() * 10000000000000)}>
                 <FilterItemName>{item}</FilterItemName>
                 <DeleteFilterButton onClick={() => removeFilter(item)}>
                   x
