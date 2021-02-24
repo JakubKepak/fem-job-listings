@@ -10,9 +10,6 @@ import ListingsItem from "./components/ListingsItem";
 // custom hooks
 import useSetFilteredData from "./hooks/useSetFilteredData";
 
-// misc
-import { mockData } from "./mock/data";
-
 // themes
 const defaultTheme = {
   backgroundColor: "hsl(180, 52%, 96%)",
@@ -54,6 +51,68 @@ const Header = styled.div`
   height: 8rem;
   background-image: url(${backgroundHeaderImageDesktop});
   background-color: hsl(180, 29%, 50%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
+const FilterPanelContainer = styled.div`
+  width: 80%;
+  max-width: 1200px;
+  background-color: white;
+  padding: 1rem;
+  margin-top: -1.5rem;
+  box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+
+  display: flex;
+
+  ${({ filterLength }) =>
+    filterLength === 0 &&
+    `
+    display: none;
+  `}
+`;
+
+const FilterItem = styled.div`
+  margin-right: 1rem;
+`;
+
+const FilterItemName = styled.span`
+  padding: 0.2rem 0.4rem;
+  background-color: ${({ theme }) => theme.backgroundColor};
+  color: ${({ theme }) => theme.companyNameTextColor};
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 5px 0 0 5px;
+`;
+
+const DeleteFilterButton = styled.span`
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.4rem;
+  background-color: ${({ theme }) => theme.companyNameTextColor};
+  color: ${({ theme }) => theme.whiteColor};
+  border-radius: 0 5px 5px 0;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.positionNameTextColor};
+    cursor: pointer;
+  }
+`;
+
+const ClearButton = styled.span`
+  margin-left: auto;
+  color: ${({ theme }) => theme.companyNameTextColor};
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `;
 
 const ListingsContainer = styled.div`
@@ -63,35 +122,31 @@ const ListingsContainer = styled.div`
 `;
 
 function App() {
-  const { filteredData, addFilter } = useSetFilteredData();
-
-  // const [data, setData] = useState([]);
-  // const [filters, setFilters] = useState(["HTML"]);
-
-  // useEffect(() => {
-  //   if (filters.length !== 0) {
-  //     let filteredData = [];
-
-  //     mockData.map((item) => {
-  //       if (
-  //         [...item.languages, ...item.tools].some(
-  //           (item) => filters.indexOf(item) !== -1
-  //         )
-  //       ) {
-  //         filteredData.push(item);
-  //       }
-  //     });
-  //     setData(filteredData);
-  //   } else {
-  //     setData(mockData);
-  //   }
-  // }, [mockData, filters]);
+  const {
+    filteredData,
+    addFilter,
+    removeFilter,
+    clearAllFilters,
+  } = useSetFilteredData();
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyles />
       <MainContainer>
-        <Header></Header>
+        <Header />
+        <FilterPanelContainer filterLength={filteredData.filter.length}>
+          {filteredData.filter.map((item) => {
+            return (
+              <FilterItem>
+                <FilterItemName>{item}</FilterItemName>
+                <DeleteFilterButton onClick={() => removeFilter(item)}>
+                  x
+                </DeleteFilterButton>{" "}
+              </FilterItem>
+            );
+          })}
+          <ClearButton onClick={clearAllFilters}>Clear</ClearButton>
+        </FilterPanelContainer>
         <ListingsContainer>
           {filteredData.data.map((item) => {
             return (

@@ -5,6 +5,7 @@ const ListingItemContainer = styled.div`
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 
   display: flex;
 
@@ -135,10 +136,6 @@ export default function ListingsItem({
   tools,
   addFilter,
 }) {
-  const addFiterHandler = (e) => {
-    addFilter(e.target.innerHTML);
-  };
-
   return (
     <ListingItemContainer featured={featured}>
       <CompanyLogo src={logo.default} alt={company}></CompanyLogo>
@@ -162,7 +159,7 @@ export default function ListingsItem({
           return (
             <ToolBox
               key={Math.round(Math.random() * 10000000000000)}
-              onClick={addFiterHandler}
+              onClick={() => addFilter(tool)}
             >
               {tool}
             </ToolBox>
